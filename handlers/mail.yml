@@ -1,0 +1,9 @@
+---
+- name: Regenerate aliases
+  ansible.builtin.command: /usr/bin/newaliases
+
+- name: Restart smtpd
+  ansible.builtin.service:
+    name: smtpd
+    enabled: true
+    state: restarted

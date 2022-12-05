@@ -1,0 +1,30 @@
+---
+- name: Copy smtpd secrets
+  ansible.builtin.template:
+    src: templates/mail/secrets
+    dest: /etc/mail/secrets
+    owner: root
+    group: _smtpd
+    mode: 0640
+  notify:
+    - Restart smtpd
+
+- name: Copy smtpd.conf
+  ansible.builtin.template:
+    src: templates/mail/smtpd.conf
+    dest: /etc/mail/smtpd.conf
+    owner: root
+    group: wheel
+    mode: 0644
+  notify: Restart smtpd
+
+- name: Copy smtpd aliases
+  ansible.builtin.template:
+    src: templates/mail/aliases
+    dest: /etc/mail/aliases
+    owner: root
+    group: wheel
+    mode: 0644
+  notify:
+    - Regenerate aliases
+    - Restart smtpd

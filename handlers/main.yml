@@ -1,0 +1,8 @@
+---
+# handlers file for router
+- name: Reboot
+  ansible.builtin.reboot:
+
+- import_tasks: networking.yml
+- import_tasks: unbound.yml
+- import_tasks: mail.yml

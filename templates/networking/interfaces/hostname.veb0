@@ -1,0 +1,7 @@
+# {{ ansible_managed }}
+
+add em1
+add em2
+add athn0
+add vport0
+up

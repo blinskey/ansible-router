@@ -1,0 +1,16 @@
+galaxy_info:
+  author: Benjamin Linskey <contact@linskey.org>
+  description: Configure an OpenBSD home router
+
+  license: ISC
+
+  min_ansible_version: 2.1
+
+  platforms:
+  - name: OpenBSD
+    versions:
+    - 7.2
+
+  galaxy_tags: []
+
+dependencies: []

@@ -1,0 +1,33 @@
+---
+- name: Reload pf
+  ansible.builtin.command: /sbin/pfctl -f /etc/pf.conf
+
+- name: Restart dhcpd
+  ansible.builtin.service:
+    name: dhcpd
+    enabled: true
+    state: restarted
+
+- name: Restart dhcpleased
+  ansible.builtin.service:
+    name: dhcpleased
+    enabled: true
+    state: restarted
+
+- name: Restart dhcpcd
+  ansible.builtin.service:
+    name: dhcpcd
+    enabled: true
+    state: restarted
+
+- name: Restart rad
+  ansible.builtin.service:
+    name: rad
+    enabled: true
+    state: restarted
+
+- name: Restart dhclient
+  ansible.builtin.service:
+    name: dhclient
+    enabled: true
+    state: restarted

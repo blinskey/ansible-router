@@ -1,0 +1,115 @@
+---
+# tasks file for router
+
+- name: Configure doas
+  ansible.builtin.template:
+    src: templates/doas.conf
+    dest: /etc/doas.conf
+    owner: root
+    group: wheel
+    mode: 0644
+
+- name: Set hostname
+  ansible.builtin.copy:
+    dest: /etc/myname
+    content: "{{ hostname }}\n"
+    owner: root
+    group: wheel
+    mode: 0644
+
+- name: Install sysctl.conf
+  ansible.builtin.template:
+    src: templates/sysctl.conf
+    dest: /etc/sysctl.conf
+    owner: root
+    group: wheel
+    mode: 0644
+  notify: Reboot
+
+- name: Configure network interfaces
+  ansible.builtin.template:
+    src: "{{item}}"
+    dest: /etc/
+    owner: root
+    group: wheel
+    mode: 0640
+  with_fileglob:
+    - "templates/networking/interfaces/hostname.*"
+  notify: Reboot
+
+- name: Configure dhclient
+  ansible.builtin.template:
+    src: templates/networking/dhclient.conf
+    dest: /etc/dhclient.conf
+    owner: root
+    group: wheel
+    mode: 0644
+  notify: Restart dhclient
+
+- name: Configure dhcpleased
+  ansible.builtin.template:
+    src: templates/networking/dhcpleased.conf
+    dest: /etc/dhcpleased.conf
+    owner: root
+    group: wheel
+    mode: 0644
+  notify: Restart dhcpleased
+
+- name: Configure dhcpd
+  ansible.builtin.template:
+    src: templates/networking/dhcpd.conf
+    dest: /etc/dhcpd.conf
+    owner: root
+    group: wheel
+    mode: 0644
+
+- name: Enable and configure dhcpd
+  ansible.builtin.lineinfile:
+    path: /etc/rc.conf.local
+    regexp: '^dhcpd_flags='
+    line: 'dhcpd_flags=vport0'
+  notify: Restart dhcpd
+
+- name: Install dhcpcd
+  community.general.openbsd_pkg:
+    name: dhcpcd
+    state: present
+
+- name: Configure dhcpcd.conf
+  ansible.builtin.template:
+    src: templates/networking/dhcpcd.conf
+    dest: /etc/dhcpcd.conf
+    owner: root
+    group: wheel
+    mode: 0600
+  notify: Restart dhcpcd
+
+- name: Configure RAD
+  ansible.builtin.template:
+    src: templates/networking/rad.conf
+    dest: /etc/rad.conf
+    owner: root
+    group: wheel
+    mode: 0644
+  notify: Restart rad
+
+- name: Configure pf
+  ansible.builtin.template:
+    src: templates/networking/pf.conf
+    dest: /etc/pf.conf
+    owner: root
+    group: wheel
+    mode: 0600
+  notify: Reload pf
+
+- name: Copy unbound configuration files
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: /var/unbound/etc/
+    owner: root
+    group: wheel
+    mode: 0644
+  with_fileglob: "templates/unbound/*"
+  notify: Restart unbound
+
+- import_tasks: mail.yml

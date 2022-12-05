@@ -1,0 +1,5 @@
+# {{ ansible_managed }}
+
+inet {{ vport0.ipv4.addr }} {{ vport0.ipv4.netmask }} {{ vport0.ipv4.broadcast_addr }}
+inet6 alias {{ vport0.ipv6.ula }} {{ vport0.ipv6.prefixlen }}
+up
