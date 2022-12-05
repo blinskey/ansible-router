@@ -173,7 +173,8 @@ ISC
 Author Information
 ------------------
 
-Benjamin Linskey <contact@linskey.org>
+Benjamin Linskey
+<contact@linskey.org>
 
 [apu2]: https://www.pcengines.ch/apu2.htm
 [veb(4)]: https://man.openbsd.org/veb.4
