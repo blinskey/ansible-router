@@ -116,8 +116,8 @@ subnets at 192.168.1.0/24 and fdfd:64a6:2917::/64.
             cidr: fdfd:64a6:2917::/64
 
         dhcpd:
-	  # Hand out 192.168.1.50-192.168.1.100 (inclusive) as dynamic
-	  # addresses.
+          # Hand out 192.168.1.50-192.168.1.100 (inclusive) as dynamic
+          # addresses.
           dynamic:
             start: 192.168.1.50
             end: 192.168.1.100
@@ -131,11 +131,11 @@ subnets at 192.168.1.0/24 and fdfd:64a6:2917::/64.
               hw_addr: 16:F5:E4:0B:19:3C
               ip_addr: 192.168.1.3
 
-	# Don't rewrite the source port on packets when natting to desktop.
+        # Don't rewrite the source port on packets when natting to desktop.
         static_port_ips:
           - 192.168.1.3
 
-	# Set up some local DNS records so we can find our router on the LAN.
+        # Set up some local DNS records so we can find our router on the LAN.
         local_dns_records:
           - type: A
             domain: router.example.com
@@ -144,21 +144,21 @@ subnets at 192.168.1.0/24 and fdfd:64a6:2917::/64.
             domain: router.example.com
             addr: "{{ vport0.ipv6.ula }}"
 
-	# Configure upstream DNS servers to which unbound should forward
-	# requests .
+        # Configure upstream DNS servers to which unbound should forward
+        # requests.
         nameservers:
           # Verbose format -- allows port to be specified.
           - addr: 1.1.1.1
             port: 853
 
-	  # Simple format: port 853 is assumed.
+          # Simple format: port 853 is assumed.
           - 8.8.8.8
           - 2001:4860:4860::8888
 
-	# Tell unbound to refuse queries for certain domains.
-	blocked_domains:
-	  - blocked.domain.example
-	  - another-blocked-domain.example
+        # Tell unbound to refuse queries for certain domains.
+        blocked_domains:
+          - blocked.domain.example
+          - another-blocked-domain.example
 
       roles:
          - router
