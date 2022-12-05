@@ -52,35 +52,33 @@ Role Variables
 		  conforming to [RFC 4193][].
 		- `prefixlen`: The ULA subnet's prefix length.
 		- `cidr`: The ULA subnet expressed in CIDR notation.
-	- `dhcpd`: dhcpd(8) configuration.
-		- `dynamic`: Range definition for dynamically assigned IP
-		  addresses.
-		  	- `start`: The lowest address in the range.
-		  	- `end`: The highest address in the range.
-		- `static`: A list of static IP address assignment
-		  configurations. Each configuration requires the following
-		  variables:
-			- `name`: Hostname.
-			- `hw_addr`: MAC address.
-			- `ip_addr`: IP address to assign.
-	- `static_port_ips`: A list of IP addresses for which static ports
-	  should be used in network address translation, required for some
-	  games to function properly.
-	- `local_dns_records`: A list of configurations for DNS records to be
-	  served by unbound(8) on the local network. Parameters include:
-	  	- `type`: A or AAAA.
-		- `domain`: The domain for the record.
-		- `addr`: The IP address for the record.
-		- `ptr`: Whether to create a corresponding PTR record.
-		  Optional, defaults to `true`.
-	- `nameservers`: A list of IP addresses of upstream DNS servers that
-	  `unbound(8)` should forward requests to. An item may be specified as
-	  either a string or a dict. If a string is specified, it should be
-	  a plain IP address, and port 853 (for DNS over TLS) is assumed.
-	  If a dict is specified, it must have two keys:
-	  	- `addr`: The server's IP address.
-		- `port`: The server's port number.
-	- `blocked_domains`: A list of domains to block via unbound(8).
+- `dhcpd`: dhcpd(8) configuration.
+	- `dynamic`: Range definition for dynamically assigned IP addresses.
+		- `start`: The lowest address in the range.
+		- `end`: The highest address in the range.
+	- `static`: A list of static IP address assignment configurations. Each
+	  configuration requires the following variables:
+		- `name`: Hostname.
+		- `hw_addr`: MAC address.
+		- `ip_addr`: IP address to assign.
+- `static_port_ips`: A list of IP addresses for which static ports should be
+  used in network address translation, required for some games to function
+  properly.
+- `local_dns_records`: A list of configurations for DNS records to be served by
+  unbound(8) on the local network. Parameters include:
+	- `type`: A or AAAA.
+	- `domain`: The domain for the record.
+	- `addr`: The IP address for the record.
+	- `ptr`: Whether to create a corresponding PTR record.
+	  Optional, defaults to `true`.
+- `nameservers`: A list of IP addresses of upstream DNS servers that
+  `unbound(8)` should forward requests to. An item may be specified as either
+  a string or a dict. If a string is specified, it should be a plain IP
+  address, and port 853 (for DNS over TLS) is assumed.  If a dict is specified,
+  it must have two keys:
+	- `addr`: The server's IP address.
+	- `port`: The server's port number.
+- `blocked_domains`: A list of domains to block via unbound(8).
 
 Example Playbook
 ----------------
