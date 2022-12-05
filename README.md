@@ -86,82 +86,84 @@ Example Playbook
 This playbook configures a machine named router.example.com with internal
 subnets at 192.168.1.0/24 and fdfd:64a6:2917::/64.
 
-    - hosts: servers
-      vars:
-        hostname: router.example.com
-        search_domain: example.com.
-        root_email: "user@example.com"
+```yaml
+- hosts: servers
+  vars:
+    hostname: router.example.com
+    search_domain: example.com.
+    root_email: "user@example.com"
 
-        # mail_password should be stored in a vault.
-        smtpd_secrets: mymailauth:user@example.com:{{ mail_password }}
-        smtp_host: "smtp+tls://mymailauth@smtp.example.com:587"
+    # mail_password should be stored in a vault.
+    smtpd_secrets: mymailauth:user@example.com:{{ mail_password }}
+    smtp_host: "smtp+tls://mymailauth@smtp.example.com:587"
 
-        wifi:
-          # Key should be stored in a vault.
-          key: "{{ my_wifi_password }}"
-          nwid: myssid
-          chan: 132
+    wifi:
+      # Key should be stored in a vault.
+      key: "{{ my_wifi_password }}"
+      nwid: myssid
+      chan: 132
 
-        vport0:
-          ipv4:
-            addr: 192.168.1.1
-            subnet: 192.168.1.0
-            netmask: 255.255.255.0
-            broadcast_addr: 192.168.1.255
-            cidr: 192.168.1.0/24
-          ipv6:
-            # This should be a unique RFC 4193-compliant subnet.
-            ula: fdfd:64a6:2917::1
-            prefixlen: 64
-            cidr: fdfd:64a6:2917::/64
+    vport0:
+      ipv4:
+        addr: 192.168.1.1
+        subnet: 192.168.1.0
+        netmask: 255.255.255.0
+        broadcast_addr: 192.168.1.255
+        cidr: 192.168.1.0/24
+      ipv6:
+        # This should be a unique RFC 4193-compliant subnet.
+        ula: fdfd:64a6:2917::1
+        prefixlen: 64
+        cidr: fdfd:64a6:2917::/64
 
-        dhcpd:
-          # Hand out 192.168.1.50-192.168.1.100 (inclusive) as dynamic
-          # addresses.
-          dynamic:
-            start: 192.168.1.50
-            end: 192.168.1.100
+    dhcpd:
+      # Hand out 192.168.1.50-192.168.1.100 (inclusive) as dynamic
+      # addresses.
+      dynamic:
+        start: 192.168.1.50
+        end: 192.168.1.100
 
-          # Assign some static addresses based on MAC addresses.
-          static:
-            - name: wireless-access-point
-              hw_addr: 28:10:89:8F:34:8E
-              ip_addr: 192.168.1.2
-            - name: desktop
-              hw_addr: 16:F5:E4:0B:19:3C
-              ip_addr: 192.168.1.3
+      # Assign some static addresses based on MAC addresses.
+      static:
+        - name: wireless-access-point
+          hw_addr: 28:10:89:8F:34:8E
+          ip_addr: 192.168.1.2
+        - name: desktop
+          hw_addr: 16:F5:E4:0B:19:3C
+          ip_addr: 192.168.1.3
 
-        # Don't rewrite the source port on packets when natting to desktop.
-        static_port_ips:
-          - 192.168.1.3
+    # Don't rewrite the source port on packets when natting to desktop.
+    static_port_ips:
+      - 192.168.1.3
 
-        # Set up some local DNS records so we can find our router on the LAN.
-        local_dns_records:
-          - type: A
-            domain: router.example.com
-            addr: "{{ vport0.ipv4.addr }}"
-          - type: AAAA
-            domain: router.example.com
-            addr: "{{ vport0.ipv6.ula }}"
+    # Set up some local DNS records so we can find our router on the LAN.
+    local_dns_records:
+      - type: A
+        domain: router.example.com
+        addr: "{{ vport0.ipv4.addr }}"
+      - type: AAAA
+        domain: router.example.com
+        addr: "{{ vport0.ipv6.ula }}"
 
-        # Configure upstream DNS servers to which unbound should forward
-        # requests.
-        nameservers:
-          # Verbose format -- allows port to be specified.
-          - addr: 1.1.1.1
-            port: 853
+    # Configure upstream DNS servers to which unbound should forward
+    # requests.
+    nameservers:
+      # Verbose format -- allows port to be specified.
+      - addr: 1.1.1.1
+        port: 853
 
-          # Simple format: port 853 is assumed.
-          - 8.8.8.8
-          - 2001:4860:4860::8888
+      # Simple format: port 853 is assumed.
+      - 8.8.8.8
+      - 2001:4860:4860::8888
 
-        # Tell unbound to refuse queries for certain domains.
-        blocked_domains:
-          - blocked.domain.example
-          - another-blocked-domain.example
+    # Tell unbound to refuse queries for certain domains.
+    blocked_domains:
+      - blocked.domain.example
+      - another-blocked-domain.example
 
-      roles:
-         - router
+  roles:
+     - router
+```
 
 License
 -------
