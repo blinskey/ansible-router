@@ -39,6 +39,8 @@ Role Variables
 	- `key`: WPA key
 	- `nwid`: Network ID
 	- `chan`: Channel
+	- `enabled`: Whether to bring the interface up. Optional, defaults to
+	  `true`.
 - `vport0`: Configuration parameters for the subnet assigned to the vport
   interface attached to the [veb(4)][] bridge.
   	- `ipv4`: IPv4 configuration parameters.

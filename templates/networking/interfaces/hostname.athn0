@@ -4,4 +4,4 @@ media autoselect mode 11n mediaopt hostap
 chan {{wifi.chan | mandatory}}
 nwid {{wifi.nwid | mandatory}}
 wpakey {{wifi.key | mandatory}}
-up
+{{ "up" if ("enabled" not in wifi or wifi.enabled) else "down" }}
