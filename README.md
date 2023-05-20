@@ -34,6 +34,7 @@ Role Variables
   in `/etc/smtpd.conf`. See the sample playbook below for an example.
 - `smtp_host`: SMTP host specification for smtp relay. See the example below
   and [smtpd.conf(5)][].
+- `mail_from`: SMTP `MAIL FROM` address to use when sending mail.
 - `wifi`: Wireless network configuration parameters. See [hostname.if(5)][] and
   [ifconfig(8)][].
 	- `key`: WPA key
@@ -98,6 +99,7 @@ subnets at 192.168.1.0/24 and fdfd:64a6:2917::/64.
     # mail_password should be stored in a vault.
     smtpd_secrets: mymailauth:user@example.com:{{ mail_password }}
     smtp_host: "smtp+tls://mymailauth@smtp.example.com:587"
+    mail_from: "user@example.com"
 
     wifi:
       # Key should be stored in a vault.
