@@ -28,3 +28,11 @@
   notify:
     - Regenerate aliases
     - Restart smtpd
+
+- name: Copy root's .mailrc
+  ansible.builtin.template:
+    src: templates/mail/root-mailrc
+    dest: /root/.mailrc
+    owner: root
+    group: wheel
+    mode: 0644

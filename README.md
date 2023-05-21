@@ -35,6 +35,7 @@ Role Variables
 - `smtp_host`: SMTP host specification for smtp relay. See the example below
   and [smtpd.conf(5)][].
 - `mail_from`: SMTP `MAIL FROM` address to use when sending mail.
+- `root_from_addr`: "From" address to set in .mailrc for root user.
 - `wifi`: Wireless network configuration parameters. See [hostname.if(5)][] and
   [ifconfig(8)][].
 	- `key`: WPA key
@@ -100,6 +101,7 @@ subnets at 192.168.1.0/24 and fdfd:64a6:2917::/64.
     smtpd_secrets: mymailauth:user@example.com:{{ mail_password }}
     smtp_host: "smtp+tls://mymailauth@smtp.example.com:587"
     mail_from: "user@example.com"
+    root_from_addr: "user@example.com"
 
     wifi:
       # Key should be stored in a vault.
